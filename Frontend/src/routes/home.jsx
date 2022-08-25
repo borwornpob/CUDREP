@@ -16,17 +16,22 @@ export default function Home() {
       setDesc(value);
     } else if (name === "image") {
       const upload_file = event.target.files[0];
-      const image_url = URL.createObjectURL(event.target.files[0]);
-      console.log(image_url);
-      setImg({
-        url: image_url,
-        file: upload_file,
-      });
+      if (upload_file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        const image_url = URL.createObjectURL(event.target.files[0]);
+        console.log(image_url);
+        setImg({
+          url: image_url,
+          file: upload_file,
+        });
+      } else {
+        alert("not an image");
+      }
     }
   };
 
-  const handleSubmit = () => {
-    if (!image) {
+  const handleSubmit = (event) => {
+    // event.preventDefault()
+    if (!image.file || !image.url) {
       alert("กรุณาถ่ายรูป");
       return;
     }
@@ -36,6 +41,7 @@ export default function Home() {
   return (
     <div className="home-body mt-5">
       <Container>
+        <h2>รายงานปัญหาทางกายภาพในโรงเรียน</h2>
         {image.url ? (
           <Container>
             <Form.Label>ภาพที่ถ่ายได้</Form.Label>
