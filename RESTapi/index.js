@@ -17,10 +17,13 @@ var express = require("express");
 var app = express();
 const PORT = process.env.PORT || 5050;
 const { tasks } = require("./handlers/tasks");
+const { newtasks } = require("./handlers/newtasks");
 
 console.log(process.env["KEYADMIN"]);
 
 app.get("/tasks", tasks);
+
+app.post("/newtasks", newtasks);
 
 app.get("/", (req, res) => {
   res.send("This is my demo project");
