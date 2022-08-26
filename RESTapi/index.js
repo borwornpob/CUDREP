@@ -18,12 +18,15 @@ var app = express();
 const PORT = process.env.PORT || 5050;
 const { tasks } = require("./handlers/tasks");
 const { newtasks } = require("./handlers/newtasks");
+const { editTaskStatus } = require("./handlers/editTaskStatus");
 
 console.log(process.env["KEYADMIN"]);
 
 app.get("/tasks", tasks);
 
 app.post("/newtasks", newtasks);
+
+app.put("/editTaskStatus", editTaskStatus);
 
 app.get("/", (req, res) => {
   res.send("This is my demo project");
