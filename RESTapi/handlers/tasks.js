@@ -5,15 +5,18 @@ exports.tasks = async (req, res) => {
   const tasksRef = db.collection("tasks");
 
   try {
-    tasksRef.get().then((snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        taskStatus: doc.data()["taskStatus"],
-      }));
-      console.log(data);
-      console.log(queryTaskStatus);
-      return res.status(201).json(data);
-    });
+    tasksRef
+      .where("taskStatus", "==", queryTaskStatus)
+      .get()
+      .then((snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log(data);
+        console.log(queryTaskStatus);
+        return res.status(201).json(data);
+      });
   } catch (err) {
     console.log(err);
     return res

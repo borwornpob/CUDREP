@@ -1,6 +1,6 @@
 const { db } = require("../util/admin");
 
-import { collection, addDoc } from "firebase/firestore";
+const { FieldValue } = require("firebase/firestore");
 
 exports.newtasks = async (req, res) => {
   const taskName = req.query.taskName;
@@ -11,18 +11,23 @@ exports.newtasks = async (req, res) => {
   const taskType = req.query.taskType;
   const taskStartDate = req.query.taskStartDate;
 
+  const tasksRef = db.collection("tasks");
+
+  const data = {
+    taskName: taskName,
+    taskLocation: taskLocation,
+    taskStatus: taskStatus,
+    taskPhotoIn: taskPhotoIn,
+    taskPhotoOut: taskPhotoOut,
+    taskType: taskType,
+    taskStartDate: Date.now(),
+  };
+
   try {
-    const docRef = await addDoc(collection(db, "tasks"), {
-      taskName: taskName,
-      taskLocation: taskLocation,
-      taskStatus: taskStatus,
-      taskPhotoIn: taskPhotoIn,
-      taskPhotoOut: taskPhotoOut,
-      taskType: taskType,
-      taskStartDate: taskStartDate,
-    });
-    console.log("Docment written with ID: ", docRef.id);
+    const docsAdded = tasksRef.add(data);
+    console.log("Document is wrriten with ID: ", docsAdded.id);
+    return res.status(201).json(data);
   } catch (err) {
-    console.error("Error adding document: ", e);
+    console.error("Error adding document: ", err);
   }
 };
