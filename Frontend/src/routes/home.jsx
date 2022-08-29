@@ -5,6 +5,7 @@ import useWindowDimensions from "../hook/dimension.jsx";
 export default function Home() {
   const { height, width } = useWindowDimensions();
   const [description, setDesc] = useState("");
+  const [type, setType] = useState("water");
   const [image, setImg] = useState({
     url: "",
     file: "",
@@ -35,6 +36,7 @@ export default function Home() {
       alert("กรุณาถ่ายรูป");
       return;
     }
+    console.log("type: ", type);
     console.log("description: ", description);
   };
 
@@ -57,6 +59,21 @@ export default function Home() {
               required
               onChange={handleChange}
             />
+
+            <Form.Label>หมวดหมู่</Form.Label>
+            <Form.Control
+              as="select"
+              value={type}
+              onChange={(e) => {
+                console.log("e.target.value", e.target.value);
+                setType(e.target.value);
+              }}
+            >
+              <option value="water">ระบบน้ำ</option>
+              <option value="electronic">ระบบไฟฟ้า</option>
+              <option value="computer">ระบบคอมพิวเตอร์</option>
+              <option value="component">อุปกรณ์ชำรุด</option>
+            </Form.Control>
 
             <Form.Label>รายละเอียด</Form.Label>
             <Form.Control
