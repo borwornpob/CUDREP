@@ -19,7 +19,7 @@ export default function Home() {
       setDesc(value);
     } else if (name === "image") {
       const upload_file = event.target.files[0];
-      if (upload_file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+      if (upload_file.name.match(/\.(jpg|jpeg|png|gif|heic)$/i)) {
         const image_url = URL.createObjectURL(event.target.files[0]);
         console.log(image_url);
         setImg({
