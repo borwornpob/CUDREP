@@ -79,7 +79,7 @@ export default function Home() {
   };
 
   const handleSubmit = async (event) => {
-    // event.preventDefault();
+    event.preventDefault();
     if (!image.file || !image.url) {
       alert("กรุณาถ่ายรูป");
       return;
@@ -91,6 +91,7 @@ export default function Home() {
     if (uploadIamgeUrl === 0) {
       alert("อัพโหลดภาพมีปัญหากรุณาแจ้งใหม่อีกครั้ง");
       setDesc("");
+      setLocation("");
       setImg({
         url: "",
         file: "",
@@ -99,6 +100,12 @@ export default function Home() {
     }
 
     await createTask(uploadIamgeUrl);
+    setDesc("");
+    setLocation("");
+    setImg({
+      url: "",
+      file: "",
+    });
     alert("อัพโหลดเสร็จสิ้น");
   };
 
