@@ -123,8 +123,7 @@ export default function Home() {
             />
 
             <Form.Label>หมวดหมู่</Form.Label>
-            <Form.Control
-              as="select"
+            <Form.Select
               value={type}
               onChange={(e) => {
                 console.log("e.target.value", e.target.value);
@@ -135,7 +134,7 @@ export default function Home() {
               <option value="electronic">ระบบไฟฟ้า</option>
               <option value="computer">ระบบคอมพิวเตอร์</option>
               <option value="component">อุปกรณ์ชำรุด</option>
-            </Form.Control>
+            </Form.Select>
 
             <Form.Label>รายละเอียด</Form.Label>
             <Form.Control
