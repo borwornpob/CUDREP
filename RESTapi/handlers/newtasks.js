@@ -24,7 +24,7 @@ exports.newtasks = async (req, res) => {
   };
 
   try {
-    const docsAdded = tasksRef.add(data);
+    const docsAdded = await tasksRef.add(data);
     console.log("Document is wrriten with ID: ", docsAdded.id);
     return res.status(201).json(data);
   } catch (err) {
