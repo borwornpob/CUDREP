@@ -19,7 +19,7 @@ export default function Reports() {
   }, [type]);
 
   return (
-    <div className="home-body mt-5">
+    <div className="home-body mt-2">
       <Container>
         <h2>รายการแจ้งปัญหา</h2>
         <Form.Label>หมวดหมู่</Form.Label>
