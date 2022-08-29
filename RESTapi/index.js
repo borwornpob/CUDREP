@@ -24,6 +24,7 @@ const imageRoute = require("./handlers/image-route");
 
 console.log(process.env["KEYADMIN"]);
 
+app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 

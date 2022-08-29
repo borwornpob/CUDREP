@@ -3,13 +3,13 @@ const { db } = require("../util/admin");
 const { FieldValue } = require("firebase/firestore");
 
 exports.newtasks = async (req, res) => {
-  const taskName = req.query.taskName;
-  const taskLocation = req.query.taskLocation;
-  const taskStatus = req.query.taskStatus;
-  const taskPhotoIn = req.query.taskPhotoIn;
-  const taskPhotoOut = req.query.taskPhotoOut;
-  const taskType = req.query.taskType;
-  const taskStartDate = req.query.taskStartDate;
+  const taskName = req.body.taskName;
+  const taskLocation = req.body.taskLocation;
+  const taskStatus = req.body.taskStatus;
+  const taskPhotoIn = req.body.taskPhotoIn;
+  const taskPhotoOut = req.body.taskPhotoOut;
+  const taskType = req.body.taskType;
+  const taskStartDate = req.body.taskStartDate;
 
   const tasksRef = db.collection("tasks");
 
