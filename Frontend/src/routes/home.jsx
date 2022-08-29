@@ -110,7 +110,7 @@ export default function Home() {
   };
 
   return (
-    <div className="home-body mt-5">
+    <div className="home-body mt-2">
       <Container>
         <h2>รายงานปัญหาทางกายภาพในโรงเรียน</h2>
         {image.url ? (
