@@ -79,7 +79,7 @@ export default function Home() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     if (!image.file || !image.url) {
       alert("กรุณาถ่ายรูป");
       return;
