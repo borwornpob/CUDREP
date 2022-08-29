@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Container, Image, Button, Form } from "react-bootstrap";
 import useWindowDimensions from "../hook/dimension.jsx";
+import axios from "axios";
 
 export default function Home() {
   const { height, width } = useWindowDimensions();
   const [description, setDesc] = useState("");
+  const [location, setLocation] = useState("");
   const [type, setType] = useState("water");
   const [image, setImg] = useState({
     url: "",
@@ -17,7 +19,7 @@ export default function Home() {
       setDesc(value);
     } else if (name === "image") {
       const upload_file = event.target.files[0];
-      if (upload_file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+      if (upload_file.name.match(/\.(jpg|jpeg|png|gif|heic)$/i)) {
         const image_url = URL.createObjectURL(event.target.files[0]);
         console.log(image_url);
         setImg({
@@ -27,17 +29,84 @@ export default function Home() {
       } else {
         alert("not an image");
       }
+    } else if (name === "loc") {
+      setLocation(value);
     }
   };
 
-  const handleSubmit = (event) => {
-    // event.preventDefault()
+  const uploadImage = async () => {
+    let res;
+    const formData = new FormData();
+    formData.append("file", image.file, image.file.name);
+    await axios
+      .post("http://127.0.0.1:5050/upload/picture", formData, {
+        headers: {
+          accept: "application/json",
+          "Accept-Language": "en-US,en;q=0.8",
+          "Content-Type": image.file.type,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        res = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        res = 0;
+      });
+    return res;
+  };
+
+  const createTask = async (imgUrl) => {
+    const data = {
+      taskName: description,
+      taskLocation: location,
+      taskStatus: "waiting",
+      taskPhotoIn: imgUrl,
+      taskPhotoOut: "",
+      taskType: type,
+      taskStartDate: Date.now(),
+    };
+
+    await axios
+      .post("http://127.0.0.1:5050/newtasks", data, {})
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     if (!image.file || !image.url) {
       alert("กรุณาถ่ายรูป");
       return;
     }
     console.log("type: ", type);
     console.log("description: ", description);
+    let uploadIamgeUrl = await uploadImage();
+
+    if (uploadIamgeUrl === 0) {
+      alert("อัพโหลดภาพมีปัญหากรุณาแจ้งใหม่อีกครั้ง");
+      setDesc("");
+      setLocation("");
+      setImg({
+        url: "",
+        file: "",
+      });
+      return;
+    }
+
+    await createTask(uploadIamgeUrl);
+    setDesc("");
+    setLocation("");
+    setImg({
+      url: "",
+      file: "",
+    });
+    alert("อัพโหลดเสร็จสิ้น");
   };
 
   return (
@@ -61,8 +130,7 @@ export default function Home() {
             />
 
             <Form.Label>หมวดหมู่</Form.Label>
-            <Form.Control
-              as="select"
+            <Form.Select
               value={type}
               onChange={(e) => {
                 console.log("e.target.value", e.target.value);
@@ -73,7 +141,7 @@ export default function Home() {
               <option value="electronic">ระบบไฟฟ้า</option>
               <option value="computer">ระบบคอมพิวเตอร์</option>
               <option value="component">อุปกรณ์ชำรุด</option>
-            </Form.Control>
+            </Form.Select>
 
             <Form.Label>รายละเอียด</Form.Label>
             <Form.Control
@@ -84,6 +152,17 @@ export default function Home() {
               onChange={handleChange}
               required
             />
+
+            <Form.Label>สถานที่</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              name="loc"
+              value={location}
+              onChange={handleChange}
+              required
+            />
+
             <Form.Text className="text-muted">
               กรุณากรอกรายระเอียดให้ครบถ้วน
             </Form.Text>
