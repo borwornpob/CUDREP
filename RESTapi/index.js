@@ -15,18 +15,25 @@ process.env["KEYADMIN"] = JSON.stringify({
 });
 var express = require("express");
 var app = express();
+const cors = require("cors");
 const PORT = process.env.PORT || 5050;
 const { tasks } = require("./handlers/tasks");
 const { newtasks } = require("./handlers/newtasks");
 const { editTaskStatus } = require("./handlers/editTaskStatus");
+const imageRoute = require("./handlers/image-route");
 
 console.log(process.env["KEYADMIN"]);
+
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/tasks", tasks);
 
 app.post("/newtasks", newtasks);
 
 app.put("/editTaskStatus", editTaskStatus);
+
+app.use("/upload", imageRoute.routes);
 
 app.get("/", (req, res) => {
   res.send("This is my demo project");
