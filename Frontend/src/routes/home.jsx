@@ -7,7 +7,7 @@ export default function Home() {
   const { height, width } = useWindowDimensions();
   const [description, setDesc] = useState("");
   const [location, setLocation] = useState("");
-  const [type, setType] = useState("water");
+  const [type, setType] = useState("notselected");
   const [image, setImg] = useState({
     url: "",
     file: "",
@@ -84,6 +84,10 @@ export default function Home() {
       alert("กรุณาถ่ายรูป");
       return;
     }
+    if (type == "notselected") {
+      alert("กรุณาเลือกหมวดหมู่");
+      return;
+    }
     console.log("type: ", type);
     console.log("description: ", description);
     let uploadIamgeUrl = await uploadImage();
@@ -137,6 +141,7 @@ export default function Home() {
                 setType(e.target.value);
               }}
             >
+              <option value="notselected">กรุณาเลือกหมวดหมู่ที่เกี่ยวข้อง</option>
               <option value="water">ระบบน้ำ</option>
               <option value="electronic">ระบบไฟฟ้า</option>
               <option value="computer">ระบบคอมพิวเตอร์</option>
