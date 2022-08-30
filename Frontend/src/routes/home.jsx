@@ -133,7 +133,7 @@ export default function Home() {
               onChange={handleChange}
             />
 
-            <Form.Label>หมวดหมู่</Form.Label>
+            <Form.Label className="mt-1">หมวดหมู่</Form.Label>
             <Form.Select
               value={type}
               onChange={(e) => {
@@ -148,7 +148,7 @@ export default function Home() {
               <option value="component">อุปกรณ์ชำรุด</option>
             </Form.Select>
 
-            <Form.Label>รายละเอียด</Form.Label>
+            <Form.Label className="mt-1">รายละเอียด </Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
@@ -158,7 +158,7 @@ export default function Home() {
               required
             />
 
-            <Form.Label>สถานที่</Form.Label>
+            <Form.Label className="mt-1">สถานที่</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}

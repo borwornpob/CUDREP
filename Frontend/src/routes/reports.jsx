@@ -3,18 +3,19 @@ import { useState, useEffect } from "react";
 import { Container, Form } from "react-bootstrap";
 
 export default function Reports() {
-  const [type, setType] = useState("doing");
+  const [type, setType] = useState("waiting");
   const [list, setList] = useState([]);
 
+  async function fetchData() {
+    await axios
+      .get("http://127.0.0.1:5050/tasks?queryTaskStatus=" + type)
+      .then((res) => {
+        console.log(res.data);
+        setList(res.data);
+      });
+  }
+
   useEffect(() => {
-    async function fetchData() {
-      await axios
-        .get("http://127.0.0.1:5050/tasks?queryTaskStatus=" + type)
-        .then((res) => {
-          console.log(res.data);
-          setList(list);
-        });
-    }
     fetchData();
   }, [type]);
 
@@ -34,6 +35,11 @@ export default function Reports() {
           <option value="finished">ดำเนินการแก้ไขเสร็จสิ้น</option>
           <option value="doing">กำลังดำเนินการ</option>
         </Form.Select>
+        {
+          list.length !== 0 ? list.map((value) => {
+            return <h1 key={value.id}>{value.taskName}</h1>
+          }) : null
+        }
       </Container>
     </div>
   );
