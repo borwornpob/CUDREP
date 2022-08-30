@@ -31,7 +31,7 @@ export default function Reports() {
           }}
         >
           <option value="waiting">รอรับเรื่อง</option>
-          <option value="finished">ระบบไฟฟ้า</option>
+          <option value="finished">ดำเนินการแก้ไขเสร็จสิ้น</option>
           <option value="doing">กำลังดำเนินการ</option>
         </Form.Select>
       </Container>
