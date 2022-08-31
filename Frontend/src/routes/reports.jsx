@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Container, Form, Card } from "react-bootstrap";
+import { Container, Form, Card, Col } from "react-bootstrap";
 import useWindowDimensions from "../hook/dimension";
 
 export default function Reports() {
@@ -49,7 +49,7 @@ export default function Reports() {
           <option value="finished">ดำเนินการแก้ไขเสร็จสิ้น</option>
           <option value="doing">กำลังดำเนินการ</option>
         </Form.Select>
-        {list.length !== 0
+        {width <= 500 && list.length !== 0
           ? list.map((value) => {
               return (
                 <Card key={value.id} className="mt-3">
@@ -61,6 +61,44 @@ export default function Reports() {
                   <Card.Footer>{"สถานะ: " + value.taskStatus}</Card.Footer>
                 </Card>
               );
+            })
+          : list.length !== 0
+          ? null
+          : null}
+        {list.length !== 0
+          ? list.map((value) => {
+              console.log(width);
+              if (width <= 500) {
+                return (
+                  <Card key={value.id} className="mt-3">
+                    <Card.Img variant="top" src={value.taskPhotoIn} />
+                    <Card.Body>
+                      <Card.Title>{value.taskName}</Card.Title>
+                      <Card.Text>{value.taskLocation}</Card.Text>
+                    </Card.Body>
+                    <Card.Footer>{"สถานะ: " + value.taskStatus}</Card.Footer>
+                  </Card>
+                );
+              } else {
+                return (
+                  <Row xs={1} md={2} className="g-4">
+                    {list.map((value, idx) => (
+                      <Col>
+                        <Card key={value.id} className="mt-3">
+                          <Card.Img variant="top" src={value.taskPhotoIn} />
+                          <Card.Body>
+                            <Card.Title>{value.taskName}</Card.Title>
+                            <Card.Text>{value.taskLocation}</Card.Text>
+                          </Card.Body>
+                          <Card.Footer>
+                            {"สถานะ: " + value.taskStatus}
+                          </Card.Footer>
+                        </Card>
+                      </Col>
+                    ))}
+                  </Row>
+                );
+              }
             })
           : null}
       </Container>
