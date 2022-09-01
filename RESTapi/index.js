@@ -18,6 +18,7 @@ var app = express();
 const cors = require("cors");
 const PORT = process.env.PORT || 5050;
 const { tasks } = require("./handlers/tasks");
+const { task } = require("./handlers/task");
 const { newtasks } = require("./handlers/newtasks");
 const { editTaskStatus } = require("./handlers/editTaskStatus");
 const imageRoute = require("./handlers/image-route");
@@ -29,6 +30,8 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/tasks", tasks);
+
+app.get("/task", task);
 
 app.post("/newtasks", newtasks);
 

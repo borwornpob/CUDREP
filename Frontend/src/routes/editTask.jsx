@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useHref } from "react-router-dom";
 import { Container, Form, Card, Col, Row, Button } from "react-bootstrap";
 import useWindowDimensions from "../hook/dimension";
 
@@ -16,7 +17,7 @@ export default function EditTask() {
 
   async function fetchData() {
     await axios
-      .get("http://127.0.0.1:5050/tasks?queryTaskStatus=" + type)
+      .get("http://172.20.10.9:5050/tasks?queryTaskStatus=" + type)
       .then((res) => {
         console.log(res.data);
 
@@ -59,6 +60,7 @@ export default function EditTask() {
                     <Card.Title>{value.taskName}</Card.Title>
                     <Card.Text>{value.taskLocation}</Card.Text>
                     <Card.Text>{d.toUTCString()}</Card.Text>
+                    <Button variant="primary">Edit Task Status</Button>
                   </Card.Body>
                   <Card.Footer>{"สถานะ: " + value.taskStatus}</Card.Footer>
                 </Card>

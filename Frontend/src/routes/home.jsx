@@ -5,6 +5,7 @@ import axios from "axios";
 
 export default function Home() {
   const { height, width } = useWindowDimensions();
+  const [isLoading, setLoading] = useState(false);
   const [description, setDesc] = useState("");
   const [location, setLocation] = useState("");
   const [type, setType] = useState("notselected");
@@ -39,7 +40,7 @@ export default function Home() {
     const formData = new FormData();
     formData.append("file", image.file, image.file.name);
     await axios
-      .post("http://127.0.0.1:5050/upload/picture", formData, {
+      .post("http://172.20.10.9:5050/upload/picture", formData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
@@ -69,7 +70,7 @@ export default function Home() {
     };
 
     await axios
-      .post("http://127.0.0.1:5050/newtasks", data, {})
+      .post("http://172.20.10.9:5050/newtasks", data, {})
       .then((response) => {
         console.log(response);
       })
@@ -79,6 +80,7 @@ export default function Home() {
   };
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     if (!image.file || !image.url) {
       alert("กรุณาถ่ายรูป");
@@ -111,6 +113,7 @@ export default function Home() {
       file: "",
     });
     alert("อัพโหลดเสร็จสิ้น");
+    setLoading(false);
   };
 
   return (
@@ -141,7 +144,9 @@ export default function Home() {
                 setType(e.target.value);
               }}
             >
-              <option value="notselected">กรุณาเลือกหมวดหมู่ที่เกี่ยวข้อง</option>
+              <option value="notselected">
+                กรุณาเลือกหมวดหมู่ที่เกี่ยวข้อง
+              </option>
               <option value="water">ระบบน้ำ</option>
               <option value="electronic">ระบบไฟฟ้า</option>
               <option value="computer">ระบบคอมพิวเตอร์</option>
@@ -172,8 +177,13 @@ export default function Home() {
               กรุณากรอกรายระเอียดให้ครบถ้วน
             </Form.Text>
           </Form.Group>
-          <Button variant="primary" type="submit" onClick={handleSubmit}>
-            Submit
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={handleSubmit}
+            disabled={isLoading}
+          >
+            {isLoading ? "Submitting..." : "Submit"}
           </Button>
         </Form>
       </Container>

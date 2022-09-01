@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Container, Form, Card, Col, Row } from "react-bootstrap";
+import { Container, Form, Card, Col, Row, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import useWindowDimensions from "../hook/dimension";
 
 export default function Reports() {
@@ -16,7 +17,7 @@ export default function Reports() {
 
   async function fetchData() {
     await axios
-      .get("http://127.0.0.1:5050/tasks?queryTaskStatus=" + type)
+      .get("http://172.20.10.9:5050/tasks?queryTaskStatus=" + type)
       .then((res) => {
         console.log(res.data);
 
@@ -59,6 +60,7 @@ export default function Reports() {
                     <Card.Title>{value.taskName}</Card.Title>
                     <Card.Text>{value.taskLocation}</Card.Text>
                     <Card.Text>{d.toUTCString()}</Card.Text>
+                    <Link to={"/reports/" + value.id}>รายละเอียด</Link>
                   </Card.Body>
                   <Card.Footer>{"สถานะ: " + value.taskStatus}</Card.Footer>
                 </Card>
@@ -67,17 +69,18 @@ export default function Reports() {
           : list.length !== 0
           ? Array.from({ length: 1 }).map(() => {
               return (
-                <Row xs={2} md={3} className="g-4">
+                <Row xs={2} md={3} className="g-4" key="hello">
                   {list.map((value, idx) => {
                     var d = new Date(value.taskStartDate);
                     return (
-                      <Col>
+                      <Col key={value.id}>
                         <Card key={value.id} className="mt-3">
                           <Card.Img variant="top" src={value.taskPhotoIn} />
                           <Card.Body>
                             <Card.Title>{value.taskName}</Card.Title>
                             <Card.Text>{value.taskLocation}</Card.Text>
                             <Card.Text>{d.toUTCString()}</Card.Text>
+                            <Link to={"/reports/" + value.id}>รายละเอียด</Link>
                           </Card.Body>
                           <Card.Footer>
                             {"สถานะ: " + value.taskStatus}
@@ -89,7 +92,9 @@ export default function Reports() {
                 </Row>
               );
             })
-          : null}
+          : Array.from({ length: 1 }).map(() => (
+              <h3 className="mt-3">ไม่มีรายการ</h3>
+            ))}
       </Container>
     </div>
   );
