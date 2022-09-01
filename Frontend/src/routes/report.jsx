@@ -15,7 +15,7 @@ export default function Report() {
   }, []);
 
   async function fetchData() {
-    var urlAPI = "http://172.20.10.9:5050/task?taskId=" + id;
+    var urlAPI = "http://localhost:5050/task?taskId=" + id;
     console.log("id:", id);
     axios.get(urlAPI).then((res) => {
       setData(res.data);

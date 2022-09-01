@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Container, Image, Button, Form } from "react-bootstrap";
 import useWindowDimensions from "../hook/dimension.jsx";
 import axios from "axios";
+import imageCompression from "browser-image-compression";
 
 export default function Home() {
   const { height, width } = useWindowDimensions();
@@ -14,18 +15,24 @@ export default function Home() {
     file: "",
   });
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
+    const options = {
+      maxSizeMB: 0.5,
+      useWebWorker: true,
+    };
+
     const { name, value } = event.target;
     if (name === "desc") {
       setDesc(value);
     } else if (name === "image") {
       const upload_file = event.target.files[0];
-      if (upload_file.name.match(/\.(jpg|jpeg|png|gif|heic)$/i)) {
+      const compressed_file = await imageCompression(upload_file, options);
+      if (compressed_file.name.match(/\.(jpg|jpeg|png|gif|heic)$/i)) {
         const image_url = URL.createObjectURL(event.target.files[0]);
         console.log(image_url);
         setImg({
           url: image_url,
-          file: upload_file,
+          file: compressed_file,
         });
       } else {
         alert("not an image");
@@ -39,8 +46,9 @@ export default function Home() {
     let res;
     const formData = new FormData();
     formData.append("file", image.file, image.file.name);
+    console.log(formData instanceof Blob);
     await axios
-      .post("http://172.20.10.9:5050/upload/picture", formData, {
+      .post("http://localhost:5050/upload/picture", formData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
@@ -70,7 +78,7 @@ export default function Home() {
     };
 
     await axios
-      .post("http://172.20.10.9:5050/newtasks", data, {})
+      .post("http://localhost:5050/newtasks", data, {})
       .then((response) => {
         console.log(response);
       })

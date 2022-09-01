@@ -17,7 +17,7 @@ export default function Reports() {
 
   async function fetchData() {
     await axios
-      .get("http://172.20.10.9:5050/tasks?queryTaskStatus=" + type)
+      .get("http://localhost:5050/tasks?queryTaskStatus=" + type)
       .then((res) => {
         console.log(res.data);
 
