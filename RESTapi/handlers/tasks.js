@@ -7,7 +7,7 @@ exports.tasks = async (req, res) => {
   try {
     tasksRef
       .where("taskStatus", "==", queryTaskStatus)
-      //.orderBy("taskStartDate")
+      .orderBy("taskStartDate")
       .get()
       .then((snapshot) => {
         const data = snapshot.docs.map((doc) => ({

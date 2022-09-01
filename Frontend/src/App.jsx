@@ -3,6 +3,7 @@ import Navbar from "./component/navbar.jsx";
 import Home from "./routes/home.jsx";
 import Statistics from "./routes/statistics.jsx";
 import Reports from "./routes/reports.jsx";
+import EditTask from "./routes/editTask.jsx";
 import "./App.css";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/statistics" element={<Statistics />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="/editTask" element={<EditTask />} />
         </Routes>
       </BrowserRouter>
     </div>

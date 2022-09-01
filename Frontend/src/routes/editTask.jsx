@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Container, Form, Card, Col, Row } from "react-bootstrap";
+import { Container, Form, Card, Col, Row, Button } from "react-bootstrap";
 import useWindowDimensions from "../hook/dimension";
 
-export default function Reports() {
+export default function EditTask() {
   const { width } = useWindowDimensions();
   const [type, setType] = useState("waiting");
   const [list, setList] = useState([]);
@@ -68,24 +68,22 @@ export default function Reports() {
           ? Array.from({ length: 1 }).map(() => {
               return (
                 <Row xs={2} md={3} className="g-4">
-                  {list.map((value, idx) => {
-                    var d = new Date(value.taskStartDate);
-                    return (
-                      <Col>
-                        <Card key={value.id} className="mt-3">
-                          <Card.Img variant="top" src={value.taskPhotoIn} />
-                          <Card.Body>
-                            <Card.Title>{value.taskName}</Card.Title>
-                            <Card.Text>{value.taskLocation}</Card.Text>
-                            <Card.Text>{d.toUTCString()}</Card.Text>
-                          </Card.Body>
-                          <Card.Footer>
-                            {"สถานะ: " + value.taskStatus}
-                          </Card.Footer>
-                        </Card>
-                      </Col>
-                    );
-                  })}
+                  {list.map((value, idx) => (
+                    <Col>
+                      <Card key={value.id} className="mt-3">
+                        <Card.Img variant="top" src={value.taskPhotoIn} />
+                        <Card.Body>
+                          <Card.Title>{value.taskName}</Card.Title>
+                          <Card.Text>{value.taskLocation}</Card.Text>
+                          <Card.Text>ID: {value.id}</Card.Text>
+                          <Button variant="primary">Edit Task Status</Button>
+                        </Card.Body>
+                        <Card.Footer>
+                          {"สถานะ: " + value.taskStatus}
+                        </Card.Footer>
+                      </Card>
+                    </Col>
+                  ))}
                 </Row>
               );
             })
