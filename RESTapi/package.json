@@ -16,6 +16,7 @@
     "firebase": "^8.6.8",
     "firebase-admin": "^11.0.1",
     "multer": "^1.4.5-lts.1",
+    "wrangler": "^2.1.13",
     "xhr2": "^0.2.1"
   }
 }

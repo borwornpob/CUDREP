@@ -17,7 +17,7 @@ export default function EditTask() {
 
   async function fetchData() {
     await axios
-      .get("http://172.20.10.9:5050/tasks?queryTaskStatus=" + type)
+      .get("http://localhost:5050/tasks?queryTaskStatus=" + type)
       .then((res) => {
         console.log(res.data);
 
@@ -27,6 +27,20 @@ export default function EditTask() {
           data[index].taskStatus = status[data[index].taskStatus];
         });
         setList(data);
+      });
+  }
+
+  async function pushData(taskId, statusUpdate) {
+    await axios
+      .put(
+        "https://localhost:5050/editTaskStatus?taskId=" +
+          taskId +
+          "&changedStatus=" +
+          statusUpdate
+      )
+      .then(() => {
+        console.log("triggered");
+        useEffect();
       });
   }
 
@@ -60,7 +74,11 @@ export default function EditTask() {
                     <Card.Title>{value.taskName}</Card.Title>
                     <Card.Text>{value.taskLocation}</Card.Text>
                     <Card.Text>{d.toUTCString()}</Card.Text>
-                    <Button variant="primary">Edit Task Status</Button>
+                    <Form.Select value={type}>
+                      <option value="waiting">รอรับเรื่อง</option>
+                      <option value="doing">กำลังดำเนินการ</option>
+                      <option value="finished">ดำเนินการแก้ไขเสร็จสิ้น</option>
+                    </Form.Select>
                   </Card.Body>
                   <Card.Footer>{"สถานะ: " + value.taskStatus}</Card.Footer>
                 </Card>
@@ -78,7 +96,16 @@ export default function EditTask() {
                           <Card.Title>{value.taskName}</Card.Title>
                           <Card.Text>{value.taskLocation}</Card.Text>
                           <Card.Text>ID: {value.id}</Card.Text>
-                          <Button variant="primary">Edit Task Status</Button>
+                          <Form.Select
+                            value={type}
+                            onChange={(e) => pushData(value.id, e.target.value)}
+                          >
+                            <option value="waiting">รอรับเรื่อง</option>
+                            <option value="doing">กำลังดำเนินการ</option>
+                            <option value="finished">
+                              ดำเนินการแก้ไขเสร็จสิ้น
+                            </option>
+                          </Form.Select>
                         </Card.Body>
                         <Card.Footer>
                           {"สถานะ: " + value.taskStatus}
